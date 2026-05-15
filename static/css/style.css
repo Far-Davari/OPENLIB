@@ -1,0 +1,121 @@
+/* Variables */
+:root {
+  --bg-color: #e3e1e1;
+  --text-color: #1a1a1a;
+  --header-bg: #ffffff;
+  --header-shadow: 0 1px 4px rgba(0, 0, 0, 0.05);
+  --link-color: #0066cc;
+  --link-hover-color: #004499;
+  --footer-text: #666;
+  --border-color: #a6a6a6;
+}
+
+/* base */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  font-size: 100%;
+  scroll-behavior: smooth;
+}
+/* Body */
+body {
+  font-family:
+    system-ui,
+    -apple-system,
+    BlinkMacSystemFont,
+    "Segoe UI",
+    Roboto,
+    Oxygen,
+    Ubuntu,
+    Cantarell,
+    "Open Sans",
+    "Helvetica Neue",
+    sans-serif;
+  line-height: 1.7;
+  background-color: var(--bg-color);
+  color: var(--text-color);
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 1rem;
+}
+
+/* Header */
+header {
+  background-color: var(--header-bg);
+  padding: 1rem 1.5rem;
+  margin-bottom: 2rem;
+  border-bottom: 1px solid var(--border-color);
+  box-shadow: var(--header-shadow);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+header h1 a {
+  text-decoration: none;
+  color: var(--text-color);
+  font-size: 1.8rem;
+  font-weight: 700;
+}
+
+header h1 a:hover {
+  color: var(--link-color);
+}
+
+/* nav {
+} */
+
+/* Main */
+main {
+  padding: 0 0.5rem;
+}
+
+main p {
+  margin-bottom: 1.5rem;
+}
+
+main a {
+  color: var(--link-color);
+}
+
+main a:hover {
+  text-decoration: underline;
+  color: var(--link-hover-color);
+}
+
+/* Footer */
+footer {
+  margin-top: 3rem;
+  padding: 1.5rem 0;
+  border-top: 1px solid var(--border-color);
+  text-align: center;
+  font-size: 0.9rem;
+  color: var(--footer-text);
+}
+
+/* Responsive Design */
+@media (max-width: 600px) {
+  body {
+    padding: 0.75rem;
+  }
+
+  header {
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 0.75rem;
+  }
+
+  header h1 a {
+    font-size: 1.5rem;
+  }
+
+  main {
+    padding: 0;
+  }
+}
