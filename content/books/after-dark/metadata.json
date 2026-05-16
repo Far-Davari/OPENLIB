@@ -1,0 +1,13 @@
+{
+  "title": "After Dark",
+  "author": "Haruki Murakami",
+  "language": "ja",
+  "translator": "Jay Rubin",
+  "chapters": [
+    { "id": "01", "title": "Chapter 1" },
+    { "id": "02", "title": "Chapter 2" },
+    { "id": "03", "title": "Chapter 3" },
+    { "id": "04", "title": "Chapter 4" },
+    { "id": "05", "title": "Chapter 5" }
+  ]
+}
