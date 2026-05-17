@@ -14,3 +14,4 @@ print (book)
 # Create generator and build homepage
 gen = SiteGenerator(ROOT)
 gen.generate_homepage(book)
+gen.generate_chapter_pages(book)

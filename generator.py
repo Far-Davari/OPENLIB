@@ -1,5 +1,6 @@
 from pathlib import Path
 from book import Book
+import markdown
 
 class SiteGenerator:
     """
@@ -35,6 +36,8 @@ class SiteGenerator:
         {chapters_list}
         """
 
+        html = html.replace("{% block content %}{% endblock %}", home_content)
+
         # Inject content into the template block
         self.output_dir.mkdir(exist_ok=True)
         output_path = self.output_dir / "index.html"
@@ -42,3 +45,32 @@ class SiteGenerator:
             f.write(html)
 
         print (f"Generated {output_path}")
+    
+    def generate_chapter_pages(self, book: Book):
+        """
+        Creates one HTML page for each chapter of the book.
+        """
+        chapters_output_dir = self.output_dir / "chapters"
+        chapters_output_dir.mkdir(exist_ok=True)
+
+        for ch in book.chapters:
+            # Read the Markdown file
+            if not ch.content_file.exists():
+                print(f"Warning: {ch.content_file} not found - skipping")
+                continue
+            
+            md_text = ch.content_file.read_text(encoding="utf-8")
+
+            # Convert Markdown to HTML
+            chapter_html = markdown.markdown(md_text)
+
+            # Prepare the page
+            page = self.base_template.replace("{{ title }}", ch.title)
+            page = page.replace("{% block content %}{% endblock %}", chapter_html)
+
+            # Write the output
+            output_path = chapters_output_dir / f"{ch.id}.html"
+            with open(output_path, "w", encoding="utf-8") as f:
+                f.write(page)
+            
+            print(f"Generated {output_path}")
