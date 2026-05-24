@@ -68,9 +68,6 @@ header h1 a:hover {
   color: var(--link-color);
 }
 
-/* nav {
-} */
-
 /* Main */
 main {
   padding: 0 0.5rem;
@@ -89,6 +86,52 @@ main a:hover {
   color: var(--link-hover-color);
 }
 
+/* Chapter Navigation */
+.chapter-nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem 0;
+  margin: 1.5rem 0;
+  border-top: 1px solid var(--border-color);
+  border-bottom: 1px solid var(--border-color);
+  font-size: 0.95rem;
+}
+
+.chapter-nav a {
+  text-decoration: none;
+  color: var(--link-color);
+  font-weight: 500;
+  transition: color 0.2s ease;
+}
+
+.chapter-nav a:hover {
+  color: var(--link-hover-color);
+  text-decoration: underline;
+}
+
+.chapter-nav .disabled {
+  color: #aaa;
+  cursor: default;
+  user-select: none;
+}
+
+.chapter-nav .disabled:hover {
+  text-decoration: none;
+}
+
+.chapter-nav .prev {
+  margin-right: auto;
+}
+
+.chapter-nav .home {
+  margin: 0 1rem;
+}
+
+.chapter-content {
+  margin: 2rem 0;
+}
+
 /* Footer */
 footer {
   margin-top: 3rem;
@@ -105,6 +148,12 @@ footer {
     padding: 0.75rem;
   }
 
+  main ul,
+  main ol {
+    padding-left: 2rem;
+    margin-left: 0;
+  }
+
   header {
     flex-direction: column;
     align-items: flex-start;
@@ -117,5 +166,19 @@ footer {
 
   main {
     padding: 0;
+  }
+}
+
+/* Nav responsive */
+@media (max-width: 500px) {
+  .chapter-nav {
+    flex-direction: column;
+    gap: 0.5rem;
+    text-align: center;
+  }
+
+  .chapter-nav .prev,
+  .chapter-nav .next {
+    margin: 0;
   }
 }
