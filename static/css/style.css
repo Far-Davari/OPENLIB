@@ -10,6 +10,21 @@
   --border-color: #a6a6a6;
 }
 
+[data-theme="dark"] {
+  --bg-color: #1a1a1a;
+  --text-color: #e0e0e0;
+  --header-bg: #2a2a2a;
+  --header-shadow: 0 1px 4px rgba(0, 0, 0, 0.2);
+  --link-color: #66aaff;
+  --link-hover-color: #99ccff;
+  --footer-text: #aaa;
+  --border-color: #444;
+}
+
+[data-theme="dark"] .chapter-nav .disabled {
+  color: #666;
+}
+
 /* base */
 *,
 *::before,
@@ -66,6 +81,16 @@ header h1 a {
 
 header h1 a:hover {
   color: var(--link-color);
+}
+
+#theme-toggle {
+  background: none;
+  border: none;
+  font-size: 1.3rem;
+  cursor: pointer;
+  padding: 0.2rem 0.5rem;
+  line-height: 1;
+  margin-left: 1rem;
 }
 
 /* Main */
