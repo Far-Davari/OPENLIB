@@ -1,0 +1,43 @@
+[
+  {
+    "title": "After Dark",
+    "book": "After Dark",
+    "type": "book",
+    "url": "/after-dark/"
+  },
+  {
+    "title": "Chapter 1",
+    "book": "After Dark",
+    "type": "chapter",
+    "url": "/after-dark/chapters/01.html",
+    "snippet": "Chapter 1\n\nIt was a quiet night in Tokyo. The clock on the wall ticked slowly.\n\n A Strange Encounter\n\nEyes meet across a dimly lit restaurant...\n\n- Murakami's style\n- Magic realism"
+  },
+  {
+    "title": "Chapter 2",
+    "book": "After Dark",
+    "type": "chapter",
+    "url": "/after-dark/chapters/02.html",
+    "snippet": ""
+  },
+  {
+    "title": "Chapter 3",
+    "book": "After Dark",
+    "type": "chapter",
+    "url": "/after-dark/chapters/03.html",
+    "snippet": ""
+  },
+  {
+    "title": "Chapter 4",
+    "book": "After Dark",
+    "type": "chapter",
+    "url": "/after-dark/chapters/04.html",
+    "snippet": ""
+  },
+  {
+    "title": "Chapter 5",
+    "book": "After Dark",
+    "type": "chapter",
+    "url": "/after-dark/chapters/05.html",
+    "snippet": ""
+  }
+]

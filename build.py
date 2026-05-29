@@ -25,6 +25,8 @@ gen.generate_global_homepage(books)
 for book in books:
     gen.generate_book_pages(book)
 
+gen.generate_search_index(books)
+
 static_src = ROOT / "static"
 static_dest = ROOT / "docs" / "static"
 if static_dest.exists():

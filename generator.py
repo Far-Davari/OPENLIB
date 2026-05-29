@@ -82,6 +82,47 @@ class SiteGenerator:
 
         self._generate_chapter_pages(book, book_output_dir)
 
+    def generate_search_index(self, books: list):
+        """
+        Create a JSON file that the front-end search can use.
+        """
+        index = []
+
+        for book in books:
+            slug = book.folder.name
+            # Add the book itself
+            index.append({
+                "title": book.title,
+                "book": book.title,
+                "type": "book",
+                "url": f"/{slug}/"
+            })
+
+            # Add each chapter
+            for ch in book.chapters:
+                snippet = ""
+                if ch.content_file.exists():
+                    raw = ch.content_file.read_text(encoding="utf-8")
+                    
+                    import re
+                    cleaned = re.sub(r'[#*`>\[\]]', '', raw)
+                    snippet = cleaned.strip()[:200]
+                index.append({
+                    "title": ch.title,
+                    "book": book.title,
+                    "type": "chapter",
+                    "url": f"/{slug}/chapters/{ch.id}.html",
+                    "snippet": snippet
+                })
+        
+        # Write the JSON file into the output folder
+        import json
+        output_path = self.output_dir / "search-index.json"
+        with open(output_path, "w", encoding="utf-8") as f:
+            json.dump(index, f, ensure_ascii=False, indent=2)
+        print(f"Generated {output_path}")
+
+
     def _generate_chapter_pages(self, book: Book, book_output_dir: Path):
         """
         Generate each chapter page with proper navigation.
