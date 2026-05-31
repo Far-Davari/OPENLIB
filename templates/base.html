@@ -8,13 +8,18 @@
       content="A Collection of Open-Source translated books in your language!"
     />
     <title>{{ title }} | OpenLib</title>
-    <link rel="stylesheet" href="/static/css/style.css" />
+    <link rel="stylesheet" href="{{ base_path }}static/css/style.css" />
   </head>
   <body>
     <header>
-      <h1><a href="/">OpenLib</a></h1>
+      <h1><a href="{{ base_path }}">OpenLib</a></h1>
       <div class="search-container">
-        <input type="search" id="search-input" placeholder="Search books and chapters..." autocomplete="off">
+        <input
+          type="search"
+          id="search-input"
+          placeholder="Search books and chapters..."
+          autocomplete="off"
+        />
         <div id="search-results" class="search-results"></div>
       </div>
       <nav>
@@ -29,6 +34,9 @@
       <p>&copy; 2025 OpenLib. Licensed under CC BY-NC 4.0.</p>
     </footer>
 
-    <script src="/static/js/main.js" defer></script>
+    <script>
+      window.BASE_PATH = "{{ base_path }}";
+    </script>
+    <script src="{{ base_path }}static/js/main.js" defer></script>
   </body>
 </html>

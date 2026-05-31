@@ -7,10 +7,11 @@ class SiteGenerator:
     """
     Takes a project root, loads templates, and generates HTML pages.
     """
-    def __init__(self, project_root: Path):
+    def __init__(self, project_root: Path, base_path: str = "/"):
         self.root = project_root
         self.template_dir = project_root / "templates"
         self.output_dir = project_root / "docs"
+        self.base_path = base_path.rstrip("/") + "/"
 
         #Load the base template once
         template_path = self.template_dir / "base.html"
@@ -42,6 +43,7 @@ class SiteGenerator:
         """
 
         page = self.base_template.replace("{{ title }}", "OpenLib - Home")
+        page = page.replace("{{ base_path }}", self.base_path)
         page = page.replace("{% block content %}{% endblock %}", content)
 
         self.output_dir.mkdir(exist_ok=True)
@@ -73,6 +75,7 @@ class SiteGenerator:
         """
 
         page = self.base_template.replace("{{ title }}", book.title)
+        page = page.replace("{{ base_path }}", self.base_path)
         page = page.replace("{% block content %}{% endblock %}", book_home_content)
 
         output_path = book_output_dir / "index.html"
@@ -179,6 +182,7 @@ class SiteGenerator:
             """
 
             page = self.base_template.replace("{{ title }}", ch.title)
+            page = page.replace("{{ base_path }}", self.base_path)
             page = page.replace("{% block content %}{% endblock %}", full_content)
 
             output_path = chapters_output_dir / f"{ch.id}.html"

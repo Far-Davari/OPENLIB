@@ -4,10 +4,11 @@ from generator import SiteGenerator
 import shutil
 
 # Define paths
+BASE_PATH = "/OPENLIB/"
 ROOT = Path(__file__).parent
 CONTENT_DIR = ROOT / "content" / "books"
 
-gen = SiteGenerator(ROOT)
+gen = SiteGenerator(ROOT, base_path=BASE_PATH)
 
 books = []
 for folder in sorted(CONTENT_DIR.iterdir()):

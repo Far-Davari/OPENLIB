@@ -38,7 +38,7 @@ function updateToggleIcon(theme) {
 
 // ==== Search functionality ====
 // Load the search index once
-fetch("/search-index.json")
+fetch(window.BASE_PATH + "search-index.json")
   .then((response) => response.json())
   .then((data) => {
     searchIndex = data;
@@ -72,9 +72,10 @@ searchInput.addEventListener("input", () => {
   // Build HTML
   let html = "";
   matches.forEach((item) => {
+    const fullUrl = window.BASE_PATH.slice(0, -1) + item.url;
     const typeLabel = item.type === "book" ? "Book" : "Chapter";
     html += `
-    <a href="${item.url}" class="search-result-item">
+    <a href="${fullUrl}" class="search-result-item">
       <span class="search-result-title">${escapeHtml(item.title)}</span>
       <span class="search-result-meta">${typeLabel} - ${escapeHtml(item.book)}</span>
       ${item.snippet ? `<span class="search-result-snippet">${escapeHtml(item.snippet)}</span>` : ""}
