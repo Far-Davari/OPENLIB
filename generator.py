@@ -7,11 +7,12 @@ class SiteGenerator:
     """
     Takes a project root, loads templates, and generates HTML pages.
     """
-    def __init__(self, project_root: Path, base_path: str = "/"):
+    def __init__(self, project_root: Path, base_path: str = "/", site_url: str = ""):
         self.root = project_root
         self.template_dir = project_root / "templates"
         self.output_dir = project_root / "docs"
         self.base_path = base_path.rstrip("/") + "/"
+        self.site_url = site_url.rstrip("/")
 
         #Load the base template once
         template_path = self.template_dir / "base.html"
@@ -44,6 +45,10 @@ class SiteGenerator:
 
         page = self.base_template.replace("{{ title }}", "OpenLib - Home")
         page = page.replace("{{ base_path }}", self.base_path)
+        description = "A Collection of open-source translated books."
+        meta_tags = self._make_meta_tags("OpenLib - Home", description, "/")
+        page = page.replace("{{ description }}", description)
+        page = page.replace("{{ meta_tags }}", meta_tags)
         page = page.replace("{% block content %}{% endblock %}", content)
 
         self.output_dir.mkdir(exist_ok=True)
@@ -76,6 +81,10 @@ class SiteGenerator:
 
         page = self.base_template.replace("{{ title }}", book.title)
         page = page.replace("{{ base_path }}", self.base_path)
+        description = f"Read {book.title} by {book.author} - an open-source translated book."
+        meta_tags = self._make_meta_tags(book.title, description, f"/{slug}/")
+        page = page.replace("{{ description }}", description)
+        page = page.replace("{{ meta_tags }}", meta_tags)
         page = page.replace("{% block content %}{% endblock %}", book_home_content)
 
         output_path = book_output_dir / "index.html"
@@ -125,11 +134,43 @@ class SiteGenerator:
             json.dump(index, f, ensure_ascii=False, indent=2)
         print(f"Generated {output_path}")
 
+    def generate_seo_files(self, books: list):
+        if not self.site_url:
+            print("No SITE_URL set - skipping sitemap and robots.txt")
+            return
+        
+        # Sitemap
+        sitemap = '<?xml version="1.0" encoding="UTF-8"?>\n'
+        sitemap += '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n'
+
+        # Homepage
+        sitemap += f"  <url><loc>{self.site_url}/</loc><changefreq>daily</changefreq></url>\n"
+
+        for book in books:
+            slug = book.folder.name
+            sitemap += f"  <url><loc>{self.site_url}/{slug}/</loc><changefreq>weekly</changefreq></url>\n"
+            for ch in book.chapters:
+                sitemap += f"  <url><loc>{self.site_url}/{slug}/chapters/{ch.id}.html</loc><changefreq>monthly</changefreq></url>\n"
+        
+        sitemap += '</urlset>\n'
+
+        output_path = self.output_dir / "sitemap.xml"
+        with open(output_path, "w", encoding="utf-8") as f:
+            f.write(sitemap)
+        print(f"Generated {output_path}")
+
+        # Robots.txt
+        robots = f"User-agent: *\nAllow: /\nSitemap: {self.site_url}/sitemap.xml\n"
+        output_path = self.output_dir / "robots.txt"
+        with open(output_path, "w", encoding="utf-8") as f:
+            f.write(robots)
+        print(f"Generated {output_path}")
 
     def _generate_chapter_pages(self, book: Book, book_output_dir: Path):
         """
         Generate each chapter page with proper navigation.
         """
+        slug = book.folder.name
         chapters_output_dir = book_output_dir / "chapters"
         chapters_output_dir.mkdir(exist_ok=True)
 
@@ -183,9 +224,29 @@ class SiteGenerator:
 
             page = self.base_template.replace("{{ title }}", ch.title)
             page = page.replace("{{ base_path }}", self.base_path)
+            import re
+            cleaned = re.sub(r'[#*`>\[\]]', '', md_text)
+            snippet = cleaned.strip()[:200]
+            description = snippet if snippet else f"Chapter {ch.title} of {book.title}"
+            meta_tags = self._make_meta_tags(ch.title, description, f"/{slug}/chapters/{ch.id}.html")
+            page = page.replace("{{ description }}", description)
+            page = page.replace("{{ meta_tags }}", meta_tags)
             page = page.replace("{% block content %}{% endblock %}", full_content)
 
             output_path = chapters_output_dir / f"{ch.id}.html"
             with open(output_path, "w", encoding="utf-8") as f:
                 f.write(page)
             print(f"Generated {output_path}")
+    
+    def _make_meta_tags(self, title: str, description: str, url: str) -> str:
+        tags = ""
+        tags += f'<meta property="og:title" content="{html.escape(title)}">\n'
+        tags += f'<meta property="og:description" content="{html.escape(description[:200])}">\n'
+        tags += f'<meta property="og:type" content="website">\n'
+        if self.site_url:
+            full_url = self.site_url + url
+            tags += f'<meta property="og:url" content="{full_url}">\n'
+        tags += '<meta name="twitter:card" content="summary">\n'
+        if self.site_url:
+            tags += f'<link rel="canonical" href="{self.site_url}{url}">\n'
+        return  tags

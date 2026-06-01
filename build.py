@@ -5,10 +5,11 @@ import shutil
 
 # Define paths
 BASE_PATH = "/OPENLIB/"
+SITE_URL = "https://far-davari.github.io"
 ROOT = Path(__file__).parent
 CONTENT_DIR = ROOT / "content" / "books"
 
-gen = SiteGenerator(ROOT, base_path=BASE_PATH)
+gen = SiteGenerator(ROOT, base_path=BASE_PATH, site_url=SITE_URL)
 
 books = []
 for folder in sorted(CONTENT_DIR.iterdir()):
@@ -27,6 +28,7 @@ for book in books:
     gen.generate_book_pages(book)
 
 gen.generate_search_index(books)
+gen.generate_seo_files(books)
 
 static_src = ROOT / "static"
 static_dest = ROOT / "docs" / "static"
