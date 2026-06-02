@@ -37,6 +37,20 @@ class SiteGenerator:
             """
 
         content = f"""
+        <section class="hero">
+        <div class="hero-en" lang="en" dir="ltr">
+            <h2>Welcome to OpenLib</h2>
+            <p>OpenLib is a community-driven platform for translating and sharing open-source books.</p>
+            <p>Explore the books below, read translation, or originals, and contribute your own.</p>
+        </div>
+        <div class="hero-fa" lang="fa" dir="rtl" hidden>
+            <h2>به OpenLib خوش آمدید</h2>
+            <p>OpenLib یک پلتفرم جامعه‌محور برای ترجمه و به اشتراک‌گذاری کتابهای متن‌باز است  </p>
+            <p>کتابهای زیر را بگردید، ترجمه ها را بخوانید و ترجمه خود را اضافه کنید :)</p>
+        </div>
+        <button id="lang-toggle" aria-label="Switch language" lang="fa">فارسی</button>
+        </section>
+
         <h2>Available Books</h2>
         <div class="bookshelf">
             {books_html}
@@ -47,7 +61,7 @@ class SiteGenerator:
         page = page.replace("{{ base_path }}", self.base_path)
         description = "A Collection of open-source translated books."
         meta_tags = self._make_meta_tags("OpenLib - Home", description, "/")
-        page = page.replace("{{ description }}", description)
+        page = page.replace("{{ description }}", html.escape(description))
         page = page.replace("{{ meta_tags }}", meta_tags)
         page = page.replace("{% block content %}{% endblock %}", content)
 
@@ -83,7 +97,7 @@ class SiteGenerator:
         page = page.replace("{{ base_path }}", self.base_path)
         description = f"Read {book.title} by {book.author} - an open-source translated book."
         meta_tags = self._make_meta_tags(book.title, description, f"/{slug}/")
-        page = page.replace("{{ description }}", description)
+        page = page.replace("{{ description }}", html.escape(description))
         page = page.replace("{{ meta_tags }}", meta_tags)
         page = page.replace("{% block content %}{% endblock %}", book_home_content)
 
@@ -229,7 +243,7 @@ class SiteGenerator:
             snippet = cleaned.strip()[:200]
             description = snippet if snippet else f"Chapter {ch.title} of {book.title}"
             meta_tags = self._make_meta_tags(ch.title, description, f"/{slug}/chapters/{ch.id}.html")
-            page = page.replace("{{ description }}", description)
+            page = page.replace("{{ description }}", html.escape(description))
             page = page.replace("{{ meta_tags }}", meta_tags)
             page = page.replace("{% block content %}{% endblock %}", full_content)
 

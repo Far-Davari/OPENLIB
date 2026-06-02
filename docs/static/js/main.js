@@ -3,6 +3,10 @@ const themeToggle = document.getElementById("theme-toggle");
 const htmlElement = document.documentElement;
 const searchInput = document.getElementById("search-input");
 const searchResults = document.getElementById("search-results");
+const langToggle = document.getElementById("lang-toggle");
+const enBlock = document.querySelector(".hero-en");
+const faBlock = document.querySelector(".hero-fa");
+
 let searchIndex = [];
 
 // Read the saved theme from LocalStorage
@@ -33,6 +37,30 @@ function updateToggleIcon(theme) {
   } else {
     themeToggle.innerHTML = "🌙";
     themeToggle.setAttribute("aria-label", "Switch to dark mode");
+  }
+}
+
+if (langToggle && enBlock && faBlock) {
+  const savedLang = localStorage.getItem("lang") || "en";
+  setLanguage(savedLang);
+
+  langToggle.addEventListener("click", () => {
+    const currentLang = faBlock.hidden ? "en" : "fa";
+    const newLang = currentLang === "en" ? "fa" : "en";
+    setLanguage(newLang);
+    localStorage.setItem("lang", newLang);
+  });
+}
+
+function setLanguage(lang) {
+  if (lang === "fa") {
+    enBlock.hidden = true;
+    faBlock.hidden = false;
+    langToggle.textContent = "English";
+  } else {
+    enBlock.hidden = false;
+    faBlock.hidden = true;
+    langToggle.textContent = "فارسی";
   }
 }
 
