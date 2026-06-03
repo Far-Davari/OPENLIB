@@ -333,6 +333,76 @@ footer {
   color: var(--footer-text);
 }
 
+.feedback-button {
+  display: block;
+  margin: 1rem auto 0;
+  background: transparent;
+  color: var(--link-color);
+  border: 1px solid var(--link-color);
+  padding: 0.4rem 1rem;
+  border-radius: 4px;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.feedback-button:hover {
+  background: var(--link-color);
+  color: #fff;
+}
+
+.feedback-form {
+  margin-top: 1rem;
+  padding: 1rem;
+  background: var(--header-bg);
+  border: 1px solid var(--border-color);
+  border-radius: 6px;
+  text-align: left;
+}
+
+.feedback-form label {
+  display: block;
+  margin: 0.5rem 0 0.2rem;
+  font-size: 0.9rem;
+  color: var(--text-color);
+}
+
+.feedback-form input[type="email"],
+.feedback-form textarea {
+  width: 100%;
+  padding: 0.5rem;
+  border: 1px solid var(--border-color);
+  border-radius: 4px;
+  font-size: 0.9rem;
+  background: var(--header-bg);
+  color: var(--text-color);
+  font-family: inherit;
+}
+
+.feedback-form textarea {
+  resize: vertical;
+}
+
+.btn-submit {
+  margin-top: 0.8rem;
+  background: var(--link-color);
+  color: #fff;
+  border: none;
+  padding: 0.5rem 1.2rem;
+  border-radius: 4px;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.btn-submit:hover {
+  background: var(--link-hover-color);
+}
+
+[lang="fa"] {
+  font-family: "Vazirmatn", sans-serif;
+}
+
 /* Responsive Design */
 @media (max-width: 600px) {
   body {
@@ -377,10 +447,6 @@ footer {
   main {
     padding: 0;
   }
-}
-
-[lang="fa"] {
-  font-family: "Vazirmatn", sans-serif;
 }
 
 /* Nav responsive */

@@ -6,6 +6,9 @@ const searchResults = document.getElementById("search-results");
 const langToggle = document.getElementById("lang-toggle");
 const enBlock = document.querySelector(".hero-en");
 const faBlock = document.querySelector(".hero-fa");
+const feedbackToggle = document.getElementById("feedback-toggle");
+const feedbackForm = document.getElementById("feedback-form");
+const feedbackPageField = document.getElementById("feedback-page");
 
 let searchIndex = [];
 
@@ -40,6 +43,7 @@ function updateToggleIcon(theme) {
   }
 }
 
+// Hero & language toggle
 if (langToggle && enBlock && faBlock) {
   const savedLang = localStorage.getItem("lang") || "en";
   setLanguage(savedLang);
@@ -62,6 +66,18 @@ function setLanguage(lang) {
     faBlock.hidden = true;
     langToggle.textContent = "فارسی";
   }
+}
+
+// Feedback form toggle
+if (feedbackToggle && feedbackForm) {
+  feedbackToggle.addEventListener("click", () => {
+    const isHidden = feedbackForm.hidden;
+    feedbackForm.hidden = !isHidden;
+    feedbackToggle.textContent = isHidden ? "💬 Close" : "💬 Feedback";
+    if (!feedbackForm.hidden && feedbackPageField) {
+      feedbackPageField.value = window.location.href;
+    }
+  });
 }
 
 // ==== Search functionality ====

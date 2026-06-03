@@ -74,6 +74,28 @@ Eyes meet across a dimly lit restaurant...
 
     <footer>
       <p>&copy; 2025 OpenLib. Licensed under CC BY-NC 4.0.</p>
+      <button id="feedback-toggle" class="feedback-button">💬 Feedback</button>
+      <div id="feedback-form" class="feedback-form" hidden>
+        <form action="https://formspree.io/f/meewqjzj" method="POST">
+          <input type="hidden" name="page" id="feedback-page" value="" />
+          <label for="feedback-email">Your Email (optional):</label>
+          <input
+            type="email"
+            name="email"
+            id="feedback-email"
+            placeholder="you@example.com"
+          />
+          <label for="feedback-message">Message:</label>
+          <textarea
+            name="message"
+            id="feedback-message"
+            rows="4"
+            required
+            placeholder="Report a typo, suggest an improvement..."
+          ></textarea>
+          <button type="submit" class="btn-submit">Send</button>
+        </form>
+      </div>
     </footer>
 
     <script>
