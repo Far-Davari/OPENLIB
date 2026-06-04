@@ -28,6 +28,8 @@ class Book:
         self.author = meta.get("author", "Unknown")
         self.language = meta.get("language", "en")
         self.translator = meta.get("translator", "")
+        self.book_lang = meta.get("lang", "en")
+        self.book_dir = meta.get("dir", "ltr")
 
         #Build chapter objects from the list in JSON
         self.chapters = []

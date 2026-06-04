@@ -3,6 +3,8 @@
   "author": "Haruki Murakami",
   "language": "ja",
   "translator": "Jay Rubin",
+  "lang": "fa",
+  "dir": "rtl",
   "chapters": [
     { "id": "01", "title": "Chapter 1" },
     { "id": "02", "title": "Chapter 2" },

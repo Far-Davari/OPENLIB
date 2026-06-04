@@ -87,10 +87,12 @@ class SiteGenerator:
         chapters_list += "</ul>"
         
         book_home_content = f"""
-        <h2>{html.escape(book.title)}</h2>
-        <p>Author: {html.escape(book.author)}</p>
-        <h3>Table of Contents</h3>
-        {chapters_list}
+        <div lang="{book.book_lang}" dir="{book.book_dir}">
+            <h2>{html.escape(book.title)}</h2>
+            <p>Author: {html.escape(book.author)}</p>
+            <h3>Table of Contents</h3>
+            {chapters_list}        
+        </div>
         """
 
         page = self.base_template.replace("{{ title }}", book.title)
@@ -229,7 +231,7 @@ class SiteGenerator:
             full_content = f"""
             <div class="chapter-container">
                 {nav_html}
-                <div class="chapter-content">
+                <div class="chapter-content"  lang="{book.book_lang}" dir="{book.book_dir}">
                     {chapter_html}
                 </div>
                 {nav_html}
