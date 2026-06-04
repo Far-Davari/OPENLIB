@@ -399,6 +399,12 @@ footer {
   background: var(--link-hover-color);
 }
 
+.build-date {
+  font-size: 0.75rem;
+  color: var(--footer-text);
+  margin-top: 0.5rem;
+}
+
 [lang="fa"] {
   font-family: "Vazirmatn", sans-serif;
 }

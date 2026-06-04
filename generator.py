@@ -2,6 +2,7 @@ from pathlib import Path
 from book import Book
 import markdown
 import html
+import datetime
 
 class SiteGenerator:
     """
@@ -64,6 +65,7 @@ class SiteGenerator:
         page = page.replace("{{ description }}", html.escape(description))
         page = page.replace("{{ meta_tags }}", meta_tags)
         page = page.replace("{% block content %}{% endblock %}", content)
+        page = page.replace("{{ build_date }}", datetime.datetime.now(datetime.timezone.utc).strftime("%Y-%m-%d %H:%M UTC"))
 
         self.output_dir.mkdir(exist_ok=True)
         output_path = self.output_dir / "index.html"
@@ -102,6 +104,7 @@ class SiteGenerator:
         page = page.replace("{{ description }}", html.escape(description))
         page = page.replace("{{ meta_tags }}", meta_tags)
         page = page.replace("{% block content %}{% endblock %}", book_home_content)
+        page = page.replace("{{ build_date }}", datetime.datetime.now(datetime.timezone.utc).strftime("%Y-%m-%d %H:%M UTC"))
 
         output_path = book_output_dir / "index.html"
         with open(output_path, "w", encoding="utf-8") as f:
@@ -248,6 +251,7 @@ class SiteGenerator:
             page = page.replace("{{ description }}", html.escape(description))
             page = page.replace("{{ meta_tags }}", meta_tags)
             page = page.replace("{% block content %}{% endblock %}", full_content)
+            page = page.replace("{{ build_date }}", datetime.datetime.now(datetime.timezone.utc).strftime("%Y-%m-%d %H:%M UTC"))
 
             output_path = chapters_output_dir / f"{ch.id}.html"
             with open(output_path, "w", encoding="utf-8") as f:
