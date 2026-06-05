@@ -163,13 +163,13 @@ class SiteGenerator:
         sitemap += '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n'
 
         # Homepage
-        sitemap += f"  <url><loc>{self.site_url}/</loc><changefreq>daily</changefreq></url>\n"
+        sitemap += f"  <url><loc>{self.site_url}{self.base_path}</loc><changefreq>daily</changefreq></url>\n"
 
         for book in books:
             slug = book.folder.name
-            sitemap += f"  <url><loc>{self.site_url}/{slug}/</loc><changefreq>weekly</changefreq></url>\n"
+            sitemap += f"  <url><loc>{self.site_url}{self.base_path}{slug}/</loc><changefreq>weekly</changefreq></url>\n"
             for ch in book.chapters:
-                sitemap += f"  <url><loc>{self.site_url}/{slug}/chapters/{ch.id}.html</loc><changefreq>monthly</changefreq></url>\n"
+                sitemap += f"  <url><loc>{self.site_url}{self.base_path}{slug}/chapters/{ch.id}.html</loc><changefreq>monthly</changefreq></url>\n"
         
         sitemap += '</urlset>\n'
 
@@ -179,7 +179,7 @@ class SiteGenerator:
         print(f"Generated {output_path}")
 
         # Robots.txt
-        robots = f"User-agent: *\nAllow: /\nSitemap: {self.site_url}/sitemap.xml\n"
+        robots = f"User-agent: *\nAllow: /\nSitemap: {self.site_url}{self.base_path}sitemap.xml\n"
         output_path = self.output_dir / "robots.txt"
         with open(output_path, "w", encoding="utf-8") as f:
             f.write(robots)
@@ -264,9 +264,9 @@ class SiteGenerator:
         tags += f'<meta property="og:description" content="{html.escape(description[:200])}">\n'
         tags += f'<meta property="og:type" content="website">\n'
         if self.site_url:
-            full_url = self.site_url + url
+            full_url = self.site_url + self.base_path.rstrip("/") + url
             tags += f'<meta property="og:url" content="{full_url}">\n'
         tags += '<meta name="twitter:card" content="summary">\n'
         if self.site_url:
-            tags += f'<link rel="canonical" href="{self.site_url}{url}">\n'
+            tags += f'<link rel="canonical" href="{self.site_url}{self.base_path.rstrip("/")}{url}">\n'
         return  tags
