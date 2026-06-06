@@ -190,6 +190,13 @@ main a:hover {
   color: var(--link-hover-color);
 }
 
+.reading-time {
+  font-size: 0.85rem;
+  color: var(--footer-text);
+  margin-bottom: 1rem;
+  font-style: italic;
+}
+
 /* Chapter Navigation */
 .chapter-nav {
   display: flex;
@@ -466,5 +473,51 @@ footer {
   .chapter-nav .prev,
   .chapter-nav .next {
     margin: 0;
+  }
+}
+
+@media print {
+  header,
+  footer,
+  .chapter-nav,
+  .search-container,
+  #theme-toggle,
+  #feedback-toggle,
+  .feedback-form,
+  .hero,
+  .bookshelf,
+  .book-card,
+  .reading-time {
+    display: none !important;
+  }
+
+  body {
+    max-width: none;
+    padding: 1cm;
+    font-size: 12pt;
+    line-height: 1.6;
+    background: white;
+    color: black;
+  }
+
+  .chapter-content {
+    margin: 0;
+    padding: 0;
+    border: none;
+  }
+
+  .chapter-content * {
+    color: black !important;
+    background: none !important;
+  }
+
+  a {
+    text-decoration: underline;
+    color: black !important;
+  }
+
+  .chapter-content h2,
+  .chapter-content h3 {
+    page-break-after: avoid;
   }
 }

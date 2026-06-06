@@ -231,10 +231,20 @@ class SiteGenerator:
 
             nav_html += "</nav>"
 
+            # Calcuate reading time
+            word_count = len(md_text.split())
+            minutes = max(1, round(word_count / 200))
+            
+            if book.book_lang == "fa":
+                reading_time_html = f'<p class="reading-time">⏱ ≈ {minutes} دقیقه مطالعه</p>'
+            else:
+                reading_time_html = f'<p class="reading-time">⏱ ≈ {minutes} min read</p>'
+
             full_content = f"""
             <div class="chapter-container">
                 {nav_html}
                 <div class="chapter-content"  lang="{book.book_lang}" dir="{book.book_dir}">
+                    {reading_time_html}
                     {chapter_html}
                 </div>
                 {nav_html}
