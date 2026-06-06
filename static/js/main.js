@@ -9,6 +9,7 @@ const faBlock = document.querySelector(".hero-fa");
 const feedbackToggle = document.getElementById("feedback-toggle");
 const feedbackForm = document.getElementById("feedback-form");
 const feedbackPageField = document.getElementById("feedback-page");
+const backToTopButton = document.getElementById("back-to-top");
 
 let searchIndex = [];
 
@@ -150,4 +151,29 @@ function escapeHtml(str) {
   const div = document.createElement("div");
   div.textContent = str;
   return div.innerHTML;
+}
+
+// Back-to-top button
+if (backToTopButton) {
+  window.addEventListener("scroll", () => {
+    const scrollY = window.scrollY;
+    if (scrollY < 200) {
+      backToTopButton.style.opacity = "0";
+      backToTopButton.style.visibility = "hidden";
+      backToTopButton.classList.remove("visible");
+    } else if (scrollY > 500) {
+      backToTopButton.style.opacity = "1";
+      backToTopButton.style.visibility = "visible";
+      backToTopButton.classList.add("visible");
+    } else {
+      const opacity = (scrollY - 200) / 300;
+      backToTopButton.style.opacity = opacity;
+      backToTopButton.style.visibility = "visible";
+      backToTopButton.classList.remove("visible");
+    }
+  });
+
+  backToTopButton.addEventListener("click", () => {
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  });
 }
