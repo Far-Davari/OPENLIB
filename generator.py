@@ -231,6 +231,13 @@ class SiteGenerator:
 
             nav_html += "</nav>"
 
+            # Chapter progress indicatior
+            if book.book_lang == "fa":
+                progress_text = f"فصل {i + 1} از {total_chapters}"
+            else: 
+                progress_text = f"Chapter {i + 1} of {total_chapters}"
+            progress_html = f'<p class="chapter-progress">{progress_text}</p>'
+
             # Calcuate reading time
             word_count = len(md_text.split())
             minutes = max(1, round(word_count / 200))
@@ -243,6 +250,7 @@ class SiteGenerator:
             full_content = f"""
             <div class="chapter-container">
                 {nav_html}
+                {progress_html}
                 <div class="chapter-content"  lang="{book.book_lang}" dir="{book.book_dir}">
                     {reading_time_html}
                     {chapter_html}

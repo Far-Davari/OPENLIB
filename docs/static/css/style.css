@@ -243,6 +243,14 @@ main a:hover {
   margin: 2rem 0;
 }
 
+.chapter-progress {
+  text-align: center;
+  font-size: 0.9rem;
+  color: var(--footer-text);
+  margin: 0.5rem 0;
+  font-weight: 500;
+}
+
 .bookshelf {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
