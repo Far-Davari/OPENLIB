@@ -320,6 +320,30 @@ main a:hover {
   line-height: 1.6;
 }
 
+/* Continue reading link */
+.continue-reading-link {
+  display: inline-block;
+  text-align: center;
+  margin: 1rem auto;
+  padding: 0.6rem 1.5rem;
+  background: var(--link-color);
+  color: #fff;
+  border-radius: 6px;
+  text-decoration: none;
+  font-weight: 500;
+  transition: background 0.2s ease;
+}
+
+.continue-reading-link:hover {
+  background: var(--link-hover-color);
+  color: #fff;
+  text-decoration: none;
+}
+
+#continue-reading-container {
+  text-align: center;
+}
+
 /* Language toggle button */
 #lang-toggle {
   margin-top: 1.5rem;

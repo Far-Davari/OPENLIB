@@ -52,6 +52,8 @@ class SiteGenerator:
         <button id="lang-toggle" aria-label="Switch language" lang="fa">فارسی</button>
         </section>
 
+        <div id="continue-reading-container"></div>
+
         <h2>Available Books</h2>
         <div class="bookshelf">
             {books_html}

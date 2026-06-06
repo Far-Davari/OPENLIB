@@ -10,6 +10,7 @@ const feedbackToggle = document.getElementById("feedback-toggle");
 const feedbackForm = document.getElementById("feedback-form");
 const feedbackPageField = document.getElementById("feedback-page");
 const backToTopButton = document.getElementById("back-to-top");
+const continueContainer = document.getElementById("continue-reading-container");
 
 let searchIndex = [];
 
@@ -66,6 +67,15 @@ function setLanguage(lang) {
     enBlock.hidden = false;
     faBlock.hidden = true;
     langToggle.textContent = "فارسی";
+  }
+
+  if (window.continueLink) {
+    window.continueLink.textContent =
+      lang === "fa"
+        ? "📖 ادامهٔ خواندن از جایی که متوقف شدید"
+        : "📖 Continue reading where you left off";
+
+    window.continueLink.setAttribute("lang", lang);
   }
 }
 
@@ -176,4 +186,27 @@ if (backToTopButton) {
   backToTopButton.addEventListener("click", () => {
     window.scrollTo({ top: 0, behavior: "smooth" });
   });
+}
+
+// Save last read position
+if (window.location.pathname.includes("/chapters/")) {
+  localStorage.setItem("lastChapter", window.location.href);
+}
+
+if (continueContainer && localStorage.getItem("lastChapter")) {
+  const lastUrl = localStorage.getItem("lastChapter");
+  const link = document.createElement("a");
+  link.href = lastUrl;
+  link.className = "continue-reading-link";
+
+  const currentLang = localStorage.getItem("lang") || "en";
+  link.setAttribute("lang", currentLang);
+  link.textContent =
+    currentLang === "fa"
+      ? "📖 ادامهٔ خواندن از جایی که متوقف شدید"
+      : "📖 Continue reading where you left off";
+
+  window.continueLink = link;
+
+  continueContainer.appendChild(link);
 }
