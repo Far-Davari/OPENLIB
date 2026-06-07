@@ -228,3 +228,44 @@ if (continueContainer && localStorage.getItem("lastChapter")) {
 
   continueContainer.appendChild(link);
 }
+
+// Copy link buttons
+document.querySelectorAll(".copy-link").forEach((button) => {
+  button.addEventListener("click", () => {
+    const url = button.getAttribute("data-url");
+    const copySpan = button.querySelector(".copy-text");
+    const originalHTML = copySpan ? copySpan.innerHTML : button.innerHTML;
+
+    // Get the language from the parent share container
+    const shareContainer = button.closest(".share-buttons");
+    const lang = shareContainer ? shareContainer.getAttribute("lang") : "en";
+    const copiedText = lang === "fa" ? "✅ کپی شد!" : "✅ Copied!";
+
+    navigator.clipboard
+      .writeText(url)
+      .then(() => {
+        if (copySpan) {
+          copySpan.textContent = copiedText;
+        } else {
+          button.innerHTML = copiedText;
+        }
+        setTimeout(() => {
+          if (copySpan) {
+            copySpan.innerHTML = originalHTML;
+          } else {
+            button.innerHTML = originalHTML;
+          }
+        }, 2000);
+      })
+      .catch(() => {
+        alert("Could not copy link. Please copy it manually.");
+      });
+  });
+});
+
+// Print / PDF buttons
+document.querySelectorAll(".print-page").forEach((button) => {
+  button.addEventListener("click", () => {
+    window.print();
+  });
+});

@@ -517,6 +517,44 @@ footer {
   transform: translateY(0);
 }
 
+/* Share buttons */
+.share-buttons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  justify-content: center;
+  margin-top: 1.5rem;
+  padding-top: 1rem;
+  border-top: 1px solid var(--border-color);
+}
+
+.share-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  padding: 0.4rem 0.8rem;
+  font-size: 0.85rem;
+  background: var(--header-bg);
+  color: var(--text-color);
+  border: 1px solid var(--border-color);
+  border-radius: 4px;
+  cursor: pointer;
+  text-decoration: none;
+  transition:
+    background 0.2s,
+    color 0.2s;
+}
+
+.share-btn:hover {
+  background: var(--link-color);
+  color: #fff;
+  border-color: var(--link-color);
+}
+
+.share-buttons[lang="fa"] .share-btn {
+  font-family: "Vazirmatn", sans-serif;
+}
+
 /* Responsive Design */
 @media (max-width: 600px) {
   body {
@@ -588,7 +626,12 @@ footer {
   .hero,
   .bookshelf,
   .book-card,
-  .reading-time {
+  .reading-time,
+  .share-buttons,
+  .back-to-top,
+  #progress-bar,
+  .chapter-progress,
+  .edit-page-link {
     display: none !important;
   }
 

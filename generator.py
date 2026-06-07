@@ -3,6 +3,7 @@ from book import Book
 import markdown
 import html
 import datetime
+import urllib.parse
 
 class SiteGenerator:
     """
@@ -256,6 +257,43 @@ class SiteGenerator:
                 reading_time_html = f'<p class="reading-time">⏱ ≈ {minutes} دقیقه مطالعه</p>'
             else:
                 reading_time_html = f'<p class="reading-time">⏱ ≈ {minutes} min read</p>'
+            
+            # Shared buttons
+            page_url = f"https://far-davari.github.io/OPENLIB/{slug}/chapters/{ch.id}.html"
+            encoded_url = urllib.parse.quote(page_url, safe='')
+            encoded_title = urllib.parse.quote(ch.title)
+
+            if book.book_lang == "fa":
+                twitter_text = "توییت"
+                telegram_text = "تلگرام"
+                copy_text = "کپی لینک"
+                print_text = "چاپ / PDF"
+            else:
+                twitter_text = "Tweet"
+                telegram_text = "Telegram"
+                copy_text = "Copy link"
+                print_text = "Print / PDF"
+            
+            share_html = f"""
+            <div class="share-buttons" lang="{book.book_lang}" dir="{book.book_dir}">
+                <a class="share-btn twitter" href="https://twitter.com/intent/tweet?text={encoded_title}&url={encoded_url}" target="_blank" rel="noopener noreferrer" title="{twitter_text}">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4l11.733 16h4.267l-11.733 -16z"/><path d="M4 20l6.768 -6.768m2.46 -2.46L20 4"/></svg>
+                    <span>{twitter_text}</span>
+                </a>
+                <a class="share-btn telegram" href="https://t.me/share/url?url={encoded_url}&text={encoded_title}" target="_blank" rel="noopener noreferrer" title="{telegram_text}">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+                    <span>{telegram_text}</span>
+                </a>
+                <button class="share-btn copy-link" data-url="{page_url}" title="{copy_text}">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1 -2 -2V4a2 2 0 0 1 2 -2h9a2 2 0 0 1 2 2v1"/></svg>
+                    <span class="copy-text">{copy_text}</span>
+                </button>
+                <button class="share-btn print-page" title="{print_text}">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 6 2 18 2 18 9"/><path d="M6 12H4a2 2 0 0 0 -2 2v4a2 2 0 0 0 2 2h16a2 2 0 0 0 2 -2v-4a2 2 0 0 0 -2 -2h-2"/><rect x="6" y="14" width="12" height="8"/></svg>
+                    <span>{print_text}</span>
+                </button>
+            </div>
+            """
 
             full_content = f"""
             <div class="chapter-container">
@@ -266,6 +304,7 @@ class SiteGenerator:
                     {chapter_html}
                 </div>
                 {nav_html}
+                {share_html}
             </div>
             """
 
