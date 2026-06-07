@@ -68,6 +68,7 @@ class SiteGenerator:
         page = page.replace("{{ meta_tags }}", meta_tags)
         page = page.replace("{% block content %}{% endblock %}", content)
         page = page.replace("{{ build_date }}", datetime.datetime.now(datetime.timezone.utc).strftime("%Y-%m-%d %H:%M UTC"))
+        page = page.replace("{{ edit_link }}", "")
 
         self.output_dir.mkdir(exist_ok=True)
         output_path = self.output_dir / "index.html"
@@ -107,6 +108,13 @@ class SiteGenerator:
         page = page.replace("{{ meta_tags }}", meta_tags)
         page = page.replace("{% block content %}{% endblock %}", book_home_content)
         page = page.replace("{{ build_date }}", datetime.datetime.now(datetime.timezone.utc).strftime("%Y-%m-%d %H:%M UTC"))
+        edit_url = f"https://github.com/Far-Davari/OPENLIB/edit/main/content/books/{slug}/metadata.json"
+        if book.book_lang == "fa":
+            edit_text = "ویرایش این کتاب در گیت‌هاب"
+        else:
+            edit_text = "Edit this book on GitHub"
+        edit_link = f'<p class="edit-page-link"><a href="{edit_url}" lang="{book.book_lang}" target="_blank" rel="noopener noreferrer">{edit_text}</a></p>'
+        page = page.replace("{{ edit_link }}", edit_link)
 
         output_path = book_output_dir / "index.html"
         with open(output_path, "w", encoding="utf-8") as f:
@@ -272,6 +280,14 @@ class SiteGenerator:
             page = page.replace("{{ meta_tags }}", meta_tags)
             page = page.replace("{% block content %}{% endblock %}", full_content)
             page = page.replace("{{ build_date }}", datetime.datetime.now(datetime.timezone.utc).strftime("%Y-%m-%d %H:%M UTC"))
+
+            edit_url = f"https://github.com/Far-Davari/OPENLIB/edit/main/content/books/{slug}/chapters/{ch.id}.md"
+            if book.book_lang == "fa":
+                edit_text = "ویرایش این صفحه در گیت‌هاب"
+            else:
+                edit_text = "Edit this page on GitHub"
+            edit_link = f'<p class="edit-page-link"><a href="{edit_url}" lang="{book.book_lang}" target="_blank" rel="noopener noreferrer">{edit_text}</a></p>'
+            page = page.replace("{{ edit_link }}", edit_link)
 
             output_path = chapters_output_dir / f"{ch.id}.html"
             with open(output_path, "w", encoding="utf-8") as f:

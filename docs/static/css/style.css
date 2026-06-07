@@ -444,6 +444,21 @@ footer {
   margin-top: 0.5rem;
 }
 
+.edit-page-link {
+  font-size: 0.8rem;
+  margin-top: 0.3rem;
+}
+
+.edit-page-link a {
+  color: var(--footer-text);
+  text-decoration: none;
+}
+
+.edit-page-link a:hover {
+  text-decoration: underline;
+  color: var(--link-color);
+}
+
 [lang="fa"] {
   font-family: "Vazirmatn", sans-serif;
 }
