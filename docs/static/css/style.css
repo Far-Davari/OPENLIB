@@ -38,6 +38,19 @@ html {
   font-size: 100%;
   scroll-behavior: smooth;
 }
+
+/* Progress bar */
+#progress-bar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 0%;
+  height: 3px;
+  background: var(--link-color);
+  z-index: 1000;
+  transition: width 0.1s ease-out;
+}
+
 /* Body */
 body {
   font-family:

@@ -11,6 +11,7 @@ const feedbackForm = document.getElementById("feedback-form");
 const feedbackPageField = document.getElementById("feedback-page");
 const backToTopButton = document.getElementById("back-to-top");
 const continueContainer = document.getElementById("continue-reading-container");
+const progressBar = document.getElementById("progress-bar");
 
 let searchIndex = [];
 
@@ -185,6 +186,23 @@ if (backToTopButton) {
 
   backToTopButton.addEventListener("click", () => {
     window.scrollTo({ top: 0, behavior: "smooth" });
+  });
+}
+
+// Reading progress bar
+if (progressBar) {
+  window.addEventListener("scroll", () => {
+    const scrollTop = window.scrollY;
+    const docHeight = document.documentElement.scrollHeight;
+    const winHeight = window.innerHeight;
+    const scrollableHeight = docHeight - winHeight;
+
+    if (scrollableHeight > 0) {
+      const scrollPercent = (scrollTop / scrollableHeight) * 100;
+      progressBar.style.width = Math.min(scrollPercent, 100) + "%";
+    } else {
+      progressBar.style.width = "0%";
+    }
   });
 }
 
