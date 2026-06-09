@@ -234,6 +234,90 @@ if (continueContainer && localStorage.getItem("lastChapter")) {
 
   continueContainer.appendChild(link);
 }
+// Reading progress tracker
+(function recordChapterRead() {
+  if (!window.location.pathname.includes("/chapters/")) return;
+
+  const pathParts = window.location.pathname.split("/").filter(Boolean);
+  const chaptersIndex = pathParts.indexOf("chapters");
+  if (chaptersIndex === -1) return;
+
+  const slug = pathParts[chaptersIndex - 1];
+  const chapterFile = pathParts[chaptersIndex + 1];
+  const chapterId = chapterFile.replace(".html", "");
+
+  const progress = JSON.parse(localStorage.getItem("readingProgress") || "{}");
+  if (!progress[slug]) {
+    progress[slug] = [];
+  }
+  if (!progress[slug].includes(chapterId)) {
+    progress[slug].push(chapterId);
+  }
+  localStorage.setItem("readingProgress", JSON.stringify(progress));
+})();
+
+// Display reading progress on book homepage
+function updateBookProgress() {
+  const progressBar = document.getElementById("book-progress-bar");
+  if (!progressBar) return;
+
+  const slug = progressBar.getAttribute("data-slug");
+  const total = parseInt(progressBar.getAttribute("data-total"), 10);
+  const progress = JSON.parse(localStorage.getItem("readingProgress") || "{}");
+  const readChapters = progress[slug] || [];
+  const readCount = readChapters.length;
+  const percent = total > 0 ? Math.round((readCount / total) * 100) : 0;
+
+  // Detect the book’s language
+  const lang = progressBar.closest("[lang]")?.getAttribute("lang") || "en";
+  const text =
+    lang === "fa"
+      ? `${readCount} از ${total} فصل خوانده شده (${percent}%)`
+      : `${readCount} / ${total} chapters read (${percent}%)`;
+
+  progressBar.innerHTML = `
+    <div class="progress-info">
+      <span class="progress-text">${text}</span>
+    </div>
+    <div class="progress-bar-track">
+      <div class="progress-bar-fill" style="width: ${percent}%"></div>
+    </div>
+  `;
+}
+
+updateBookProgress();
+
+// Add progress badge on book cards in global homepage
+function decorateBookCards() {
+  const progress = JSON.parse(localStorage.getItem("readingProgress") || "{}");
+  document.querySelectorAll(".book-card").forEach((card) => {
+    const href = card.getAttribute("href");
+    if (!href) return;
+    const slug = href.replace(/\/$/, "");
+    const readChapters = progress[slug] || [];
+    if (readChapters.length > 0) {
+      if (card.querySelector(".progress-badge")) return;
+
+      // Detect language from the card’s data-lang attribute
+      const lang = card.getAttribute("data-lang") || "en";
+      const label =
+        lang === "fa"
+          ? `${readChapters.length} فصل`
+          : `${readChapters.length} read`;
+
+      const badge = document.createElement("span");
+      badge.className = "progress-badge";
+      badge.textContent = label;
+
+      const chaptersPara = card.querySelector(".chapters-count");
+      if (chaptersPara) {
+        chaptersPara.insertAdjacentElement("afterend", badge);
+      }
+    }
+  });
+}
+
+decorateBookCards();
 
 // Copy link buttons
 document.querySelectorAll(".copy-link").forEach((button) => {

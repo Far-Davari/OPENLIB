@@ -31,7 +31,7 @@ class SiteGenerator:
             safe_author = html.escape(book.author)
             slug = book.folder.name
             books_html += f"""
-            <a href="{slug}/" class="book-card">
+            <a href="{slug}/" class="book-card" data-lang="{book.book_lang}">
                 <h3>{safe_title}</h3>
                 <p class="author">by {safe_author}</p>
                 <p class="chapters-count">{len(book.chapters)} chapters</p>
@@ -96,6 +96,7 @@ class SiteGenerator:
         <div lang="{book.book_lang}" dir="{book.book_dir}">
             <h2>{html.escape(book.title)}</h2>
             <p>Author: {html.escape(book.author)}</p>
+            <div id="book-progress-bar" data-slug="{slug}" data-total="{len(book.chapters)}"></div>
             <h3>Table of Contents</h3>
             {chapters_list}        
         </div>
