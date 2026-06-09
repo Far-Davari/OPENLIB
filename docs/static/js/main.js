@@ -15,36 +15,42 @@ const progressBar = document.getElementById("progress-bar");
 
 let searchIndex = [];
 
-// Read the saved theme from LocalStorage
-const savedTheme = localStorage.getItem("theme");
-if (savedTheme) {
-  htmlElement.setAttribute("data-theme", savedTheme);
-  updateToggleIcon(savedTheme);
-} else {
-  updateToggleIcon("light");
+// Three-state theme toggle
+const THEME_STATES = ["light", "dark", "auto"];
+const THEME_ICONS = {
+  light: "☀️",
+  dark: "🌙",
+  auto: "🌗",
+};
+const THEME_LABELS = {
+  light: "Switch to dark mode",
+  dark: "Switch to auto (system) mode",
+  auto: "Switch to light mode",
+};
+
+function applyTheme(state) {
+  htmlElement.setAttribute("data-theme", state);
+  themeToggle.setAttribute("data-theme-state", state);
+  themeToggle.innerHTML = THEME_ICONS[state];
+  themeToggle.setAttribute("aria-label", THEME_LABELS[state]);
+  localStorage.setItem("theme", state);
 }
 
-// Toggle function
-themeToggle.addEventListener("click", () => {
-  const currentTheme = htmlElement.getAttribute("data-theme");
-  const newTheme = currentTheme === "dark" ? "light" : "dark";
-
-  htmlElement.setAttribute("data-theme", newTheme);
-
-  localStorage.setItem("theme", newTheme);
-  updateToggleIcon(newTheme);
+const systemDarkQuery = window.matchMedia("(prefers-color-scheme: dark)");
+systemDarkQuery.addEventListener("change", () => {
+  if (htmlElement.getAttribute("data-theme") === "auto") {
+  }
 });
 
-// Update the button icon and label
-function updateToggleIcon(theme) {
-  if (theme === "dark") {
-    themeToggle.innerHTML = "☀️";
-    themeToggle.setAttribute("aria-label", "Switch to light mode");
-  } else {
-    themeToggle.innerHTML = "🌙";
-    themeToggle.setAttribute("aria-label", "Switch to dark mode");
-  }
-}
+const savedTheme = localStorage.getItem("theme") || "light";
+applyTheme(savedTheme);
+
+themeToggle.addEventListener("click", () => {
+  const current = htmlElement.getAttribute("data-theme");
+  const currentIndex = THEME_STATES.indexOf(current);
+  const nextState = THEME_STATES[(currentIndex + 1) % THEME_STATES.length];
+  applyTheme(nextState);
+});
 
 // Hero & language toggle
 if (langToggle && enBlock && faBlock) {

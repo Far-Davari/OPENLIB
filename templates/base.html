@@ -31,7 +31,13 @@
       <nav>
         <!-- Navigation -->
       </nav>
-      <button id="theme-toggle" aria-label="Switch to dark mode">🌙</button>
+      <button
+        id="theme-toggle"
+        data-theme-state="light"
+        aria-label="Switch to dark mode"
+      >
+        🌙
+      </button>
     </header>
 
     <main>{% block content %}{% endblock %}</main>

@@ -25,6 +25,24 @@
   color: #666;
 }
 
+/* Auto theme - follows OS preferences */
+@media (prefers-color-scheme: dark) {
+  [data-theme="auto"] {
+    --bg-color: #1a1a1a;
+    --text-color: #e0e0e0;
+    --header-bg: #2a2a2a;
+    --header-shadow: 0 1px 4px rgba(0, 0, 0, 0.2);
+    --link-color: #66aaff;
+    --link-hover-color: #99ccff;
+    --footer-text: #aaa;
+    --border-color: #444;
+  }
+
+  [data-theme="auto"] .chapter-nav .disabled {
+    color: #666;
+  }
+}
+
 /* base */
 *,
 *::before,
