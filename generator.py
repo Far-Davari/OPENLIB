@@ -4,6 +4,7 @@ import markdown
 import html
 import datetime
 import urllib.parse
+import json
 
 class SiteGenerator:
     """
@@ -202,6 +203,17 @@ class SiteGenerator:
         Generate each chapter page with proper navigation.
         """
         slug = book.folder.name
+        glossary_data = []
+        glossary_script = ""
+        glossary_path = book.folder / "glossary.json"
+        if glossary_path.exists():
+            with open(glossary_path, "r", encoding="utf-8") as gf:
+                glossary_data = json.load(gf)
+            if glossary_data:
+                glossary_json = json.dumps(glossary_data, ensure_ascii=False)
+                safe_glossary_json = glossary_json.replace("</", "<\\/")
+                glossary_script = f'<script id="glossary-data" type="application/json">{safe_glossary_json}</script>' if glossary_data else ""
+                
         chapters_output_dir = book_output_dir / "chapters"
         chapters_output_dir.mkdir(exist_ok=True)
 
@@ -307,6 +319,7 @@ class SiteGenerator:
                 {nav_html}
                 {share_html}
             </div>
+            {glossary_script}
             """
 
             page = self.base_template.replace("{{ title }}", ch.title)

@@ -614,6 +614,41 @@ footer {
   font-family: "Vazirmatn", sans-serif;
 }
 
+/* Glossary */
+.glossary-term {
+  border-bottom: 1px dotted var(--link-color);
+  cursor: help;
+  position: relative;
+}
+
+.glossary-tooltip {
+  display: none;
+  position: absolute;
+  bottom: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  background: var(--header-bg);
+  color: var(--text-color);
+  border: 1px solid var(--border-color);
+  border-radius: 4px;
+  padding: 0.4rem 0.7rem;
+  font-size: 0.85rem;
+  white-space: normal;
+  z-index: 100;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+  margin-bottom: 4px;
+  max-width: 250px;
+  text-align: center;
+}
+
+.glossary-term:hover .glossary-tooltip {
+  display: block;
+}
+
+.glossary-term.active .glossary-tooltip {
+  display: block;
+}
+
 /* Responsive Design */
 @media (max-width: 600px) {
   body {

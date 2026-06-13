@@ -359,3 +359,92 @@ document.querySelectorAll(".print-page").forEach((button) => {
     window.print();
   });
 });
+
+// Glossary tooltip
+(function initGlossary() {
+  const glossaryScript = document.getElementById("glossary-data");
+  if (!glossaryScript) return;
+
+  let glossary = [];
+  try {
+    glossary = JSON.parse(glossaryScript.textContent);
+  } catch (e) {
+    console.error("Invalid glossary JSON", e);
+    return;
+  }
+  if (!glossary.length) return;
+
+  const termMap = new Map();
+  glossary.forEach((item) => {
+    termMap.set(item.term.toLowerCase(), item.definition);
+  });
+
+  function wrapTerm(textNode, term, definition) {
+    const text = textNode.textContent;
+    const lowerText = text.toLowerCase();
+    const index = lowerText.indexOf(term.toLowerCase());
+    if (index === -1) return false;
+
+    const before = text.slice(0, index);
+    const match = text.slice(index, index + term.length);
+    const after = text.slice(index + term.length);
+
+    const parent = textNode.parentNode;
+    const span = document.createElement("span");
+    span.className = "glossary-term";
+    span.textContent = match;
+
+    const tooltip = document.createElement("span");
+    tooltip.className = "glossary-tooltip";
+    tooltip.textContent = definition;
+    span.appendChild(tooltip);
+
+    parent.insertBefore(document.createTextNode(before), textNode);
+    parent.insertBefore(span, textNode);
+    parent.insertBefore(document.createTextNode(after), textNode);
+    parent.removeChild(textNode);
+    return true;
+  }
+
+  function processNode(node) {
+    if (node.nodeType === Node.TEXT_NODE) {
+      let text = node.textContent;
+      for (const [term, definition] of termMap) {
+        if (text.toLowerCase().includes(term)) {
+          if (wrapTerm(node, term, definition)) {
+            return;
+          }
+        }
+      }
+    } else if (node.nodeType === Node.ELEMENT_NODE) {
+      if (
+        node.tagName === "SCRIPT" ||
+        node.tagName === "STYLE" ||
+        node.classList.contains("glossary-term")
+      ) {
+        return;
+      }
+      Array.from(node.childNodes).forEach((child) => processNode(child));
+    }
+  }
+
+  const contentDiv = document.querySelector(".chapter-content");
+  if (contentDiv) {
+    processNode(contentDiv);
+  }
+
+  document.addEventListener("click", function (e) {
+    const term = e.target.closest(".glossary-term");
+    if (term) {
+      term.classList.toggle("active");
+      document.querySelectorAll(".glossary-term.active").forEach((other) => {
+        if (other !== term) other.classList.remove("active");
+      });
+      e.stopPropagation();
+    } else {
+      document
+        .querySelectorAll(".glossary-term.active")
+        .forEach((t) => t.classList.remove("active"));
+    }
+  });
+})();
