@@ -37,4 +37,13 @@ if static_dest.exists():
 shutil.copytree(static_src, static_dest)
 print("Copied static files to docs/")
 
+manifest_src = ROOT / "manifest.json"
+manifest_dest = ROOT / "docs" / "manifest.json"
+shutil.copy2(manifest_src, manifest_dest)
+
+sw_src = ROOT / "sw.js"
+sw_dest = ROOT / "docs" / "sw.js"
+shutil.copy2(sw_src, sw_dest)
+print("Copied PWA files to docs/")
+
 print("All books generated.")

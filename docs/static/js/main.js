@@ -1,3 +1,4 @@
+"use strict";
 // Get elements
 const themeToggle = document.getElementById("theme-toggle");
 const htmlElement = document.documentElement;
@@ -14,6 +15,13 @@ const continueContainer = document.getElementById("continue-reading-container");
 const progressBar = document.getElementById("progress-bar");
 
 let searchIndex = [];
+
+if ("serviceWorker" in navigator) {
+  navigator.serviceWorker
+    .register(window.BASE_PATH + "sw.js")
+    .then((reg) => console.log("Service Worker registered", reg.scope))
+    .catch((err) => console.log("Service Worker registration failed", err));
+}
 
 // Three-state theme toggle
 const THEME_STATES = ["light", "dark", "auto"];
