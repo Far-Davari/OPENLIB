@@ -649,6 +649,13 @@ footer {
   display: block;
 }
 
+/* Visit Counter */
+.visit-counter {
+  margin-top: 0.8rem;
+  font-size: 0.9rem;
+  color: var(--footer-text);
+}
+
 /* Responsive Design */
 @media (max-width: 600px) {
   body {

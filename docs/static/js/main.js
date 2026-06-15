@@ -456,3 +456,23 @@ document.querySelectorAll(".print-page").forEach((button) => {
     }
   });
 })();
+
+// Visit Counter
+(function updateVisitCounter() {
+  const counterElement = document.getElementById("visit-counter");
+  if (!counterElement) return;
+
+  const goatcode = "hec";
+  const apiUrl = `https://${goatcode}.goatcounter.com/counter`;
+
+  fetch(apiUrl)
+    .then((response) => response.json())
+    .then((data) => {
+      const count = data.count || data.total || 0;
+      const formatted = new Intl.NumberFormat().format(count);
+      counterElement.textContent = `📊 ${formatted} visits`;
+    })
+    .catch(() => {
+      counterElement.textContent = "📊 ... visits";
+    });
+})();

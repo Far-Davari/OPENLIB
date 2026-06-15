@@ -52,6 +52,7 @@ class SiteGenerator:
             <p>کتابهای زیر را بگردید، ترجمه ها را بخوانید و ترجمه خود را اضافه کنید :)</p>
         </div>
         <button id="lang-toggle" aria-label="Switch language" lang="fa">فارسی</button>
+        <p id="visit-counter" class="visit-counter">📊 Loading visits...</p>
         </section>
 
         <div id="continue-reading-container"></div>
