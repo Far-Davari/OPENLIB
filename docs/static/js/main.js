@@ -457,18 +457,21 @@ document.querySelectorAll(".print-page").forEach((button) => {
   });
 })();
 
-// Visit Counter
+// Visit Counter (GoatCounter total via JSON)
 (function updateVisitCounter() {
   const counterElement = document.getElementById("visit-counter");
   if (!counterElement) return;
 
   const goatcode = "hec";
-  const apiUrl = `https://${goatcode}.goatcounter.com/counter`;
+  const apiUrl = `https://${goatcode}.goatcounter.com/counter/TOTAL.json`;
 
   fetch(apiUrl)
-    .then((response) => response.json())
+    .then((response) => {
+      if (!response.ok) throw new Error("Not available");
+      return response.json();
+    })
     .then((data) => {
-      const count = data.count || data.total || 0;
+      const count = data.count || 0;
       const formatted = new Intl.NumberFormat().format(count);
       counterElement.textContent = `📊 ${formatted} visits`;
     })
